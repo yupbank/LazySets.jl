@@ -99,6 +99,7 @@ Ellipsoid
 EmptySet
 ExponentialMap
 ExponentialProjectionMap
+HParallelotope
 HPolygon
 HPolygonOpt
 HPolyhedron

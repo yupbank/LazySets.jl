@@ -1,4 +1,4 @@
-unit_HParallelotopeunit_HParallelotopeusing LazySets, LazySets.Approximations, Test, LinearAlgebra, SparseArrays
+using LazySets, LazySets.Approximations, Test, LinearAlgebra, SparseArrays
 
 import IntervalArithmetic
 const IA = IntervalArithmetic
