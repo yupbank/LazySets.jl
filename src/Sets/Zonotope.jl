@@ -101,9 +101,9 @@ struct Zonotope{N<:Real, VN<:AbstractVector{N}, MN<:AbstractMatrix{N}} <: Abstra
     generators::MN
 
     function Zonotope(center::VN, generators::MN;
-                      remove_zero_generators::Bool=true) where {N<:Real,
-                                                                VN<:AbstractVector{N},
-                                                                MN<:AbstractMatrix{N}}
+                      remove_zero_generators::Bool=false) where {N<:Real,
+                                                                 VN<:AbstractVector{N},
+                                                                 MN<:AbstractMatrix{N}}
         @assert length(center) == size(generators, 1) "the dimension of the " *
             "center ($(length(center))) and the generators " *
             "($(size(generators, 1))) need to match"
