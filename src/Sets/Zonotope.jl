@@ -110,6 +110,10 @@ struct Zonotope{N<:Real, VN<:AbstractVector{N}, MN<:AbstractMatrix{N}} <: Abstra
     end
 end
 
+function Zonotope(center::AbstractVector, generators::AbstractMatrix; remove_zero_generators)
+    return Zonotope(center, generators)
+end
+
 isoperationtype(::Type{<:Zonotope}) = false
 isconvextype(::Type{<:Zonotope}) = true
 
