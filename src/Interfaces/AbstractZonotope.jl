@@ -408,6 +408,52 @@ There are at most ``2^p`` distinct vertices. Use the flag `apply_convex_hull` to
 control whether a convex hull algorithm is applied to the vertices computed by
 this method; otherwise, redundant vertices may be present.
 """
+function _generator_to_angle(G)
+    (map(atan, G[2,:], G[1,:]) ./π*180 .+ 360) .% 360
+end
+
+function _vertices_list(G)
+    p = size(G, 2)
+    index = ones(p, 2*p)
+    @inbounds for i in 1:p
+        index[i, i+1:i+p-1] .= -1
+    end
+    index[:, 1] .= -1
+    V = G * index
+    [V[:, i] for i in 1:2*p]
+end
+
+
+function _merge(A, B)
+  vlist = Vector{Vector{Float64}}()
+  for i in 1:size(A, 1)
+    for j in 1:size(B, 1)
+      push!(vlist, A[ i] + B[ j])
+    end
+  end
+  for i in 1:size(A, 1)
+        push!(vlist, A[i])
+    end
+  for i in 1:size(B, 1)
+        push!(vlist, B[i])
+    end
+  convex_hull!(vlist)
+end
+
+
+function _vertices_enumeration_2d(G)
+  angles = _generator_to_angle(G)
+  p = sortperm(angles)
+  reduce(_merge,
+	  map(_vertices_list,
+	       filter(!isempty,
+		       [G[:, p[i*90 .> angles[p] .>= (i-1)*90]]
+                           for i in 1:4]
+		       )
+	       )
+	  )
+end
+
 function vertices_list(Z::AbstractZonotope{N};
                        apply_convex_hull::Bool=true) where {N<:Real}
     c = center(Z)
